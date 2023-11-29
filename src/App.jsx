@@ -1,16 +1,37 @@
 import React from "react";
-import Player from "./components/Player";
+import { useState } from "react";
+import Player from "./components/Player.jsx";
+import GameBoard from "./components/GameBoard.jsx";
+import GameLog from "./components/GameLog.jsx";
+
 function App() {
+  const [activePlayer, setActivePlayer] = useState("X");
+  const [gameTurns, setGameTurns] = useState([]);
+  const activePlayerHandler = (rowIndex, colIndex) => {
+    setActivePlayer((prevActivePlayer) => {
+      return prevActivePlayer === "X" ? "O" : "X";
+    });
+    setGameTurns((prevGameTurns) => {
+      const updatedGameTurns = [
+        {
+          selectedCell: { row: rowIndex, col: colIndex },
+          currentPlayer: { activePlayer },
+        },
+        ...prevGameTurns,
+      ];
+      return updatedGameTurns;
+    });
+  };
   return (
     <main>
       <div id="game-container">
-        <ol id="players">
-          <Player name="Asım" symbol="X" />
-          <Player name="Deniz" symbol="O" />
+        <ol id="players" className="highlight-player">
+          <Player name="Asım" symbol="X" isActive={activePlayer === "X"} />
+          <Player name="Deniz" symbol="O" isActive={activePlayer === "O"} />
         </ol>
-        GAME BOARD
+        <GameBoard onCellSelect={activePlayerHandler} turns={gameTurns} />
       </div>
-      LOG
+      <GameLog turns={gameTurns} />
     </main>
   );
 }
