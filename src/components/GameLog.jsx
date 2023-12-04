@@ -3,7 +3,7 @@ const GameLog = ({ turns }) => {
     <ol id="log">
       {turns.map((turn) => (
         <li key={`${turn.selectedCell.row}${turn.selectedCell.col}`}>
-          {turn.currentPlayer.activePlayer} played at row (
+          {turn.currentPlayer} played {turn.currentSymbol} at (
           {turn.selectedCell.row}, {turn.selectedCell.col})
         </li>
       ))}
